@@ -2,7 +2,8 @@
 #define FULLCONNECTED_H
 
 #include <functional>
-#include "activation.h"
+#include "../Learning/learning.h"
+#include "../Learning/activation.h"
 
 class FullConnected : public layer
 {

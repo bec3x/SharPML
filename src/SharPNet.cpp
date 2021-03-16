@@ -4,8 +4,6 @@
 #include <functional>
 #include <algorithm>
 
-typedef std::vector<int>::iterator iterator;
-
 SharPNet::SharPNet(std::vector<int>& topology, activation_t activation = activation_t::Relu)
 {
 	// Selected the activation function for the neural net
@@ -62,7 +60,7 @@ double SharPNet::train(std::vector<std::vector<float>>& inputs, std::vector<std:
 	for (int pass = 0; pass < nr_epochs; pass++) {
 		std::random_shuffle(indicies.begin(), indicies.end());
 
-		for (iterator it = indicies.begin(); it != indicies.end(); it++) {
+		for (std::vector<int>::iterator it = indicies.begin(); it != indicies.end(); it++) {
 			feed_forward(inputs[*it]);
 			back_propagation(outputs[*it]);
 		}

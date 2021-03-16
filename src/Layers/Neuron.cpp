@@ -1,14 +1,6 @@
 #include "Neuron.h"
 #include <functional>
 
-/****************************************************************************************
-*									Neuron CTOR
-* @Description:
-	Initalizes a neuron with a random weight for each of the outputs
-* @Params:
-	unsigned int nr_outputs		[in]	The number of outputs the neuron is connected to
-	unsinged int index			[in]	The index of the neuron inside the layer
-****************************************************************************************/
 Neuron::Neuron(unsigned int nr_outputs, unsigned int index)
 {
 	_index = index;
@@ -19,15 +11,6 @@ Neuron::Neuron(unsigned int nr_outputs, unsigned int index)
 	}
 }
 
-/****************************************************************************************
-*									feed_forward
-* @Description:
-	Takes the previous layers output values and multiples them by the input weights on
-	the edges that connect the neurons and sums the values. This sum is returned and
-	given to the activation function of the neural network.	
-* @Params:
-	const Layer& prevLayer		[in]	The previous layer in the neural network
-****************************************************************************************/
 void Neuron::feed_forward(const Layer& prevLayer, std::function<float(float)> activation)
 {
 	float sum = 0.0f;

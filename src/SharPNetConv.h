@@ -1,13 +1,13 @@
 #ifndef SHARPNETCONV_H
 #define SHARPNETCONV_H
 
-#include "tensor.h"
-#include "layer.h"
-#include "convolutional.h"
-#include "fullconnected.h"
-#include "relu.h"
-#include "pooling.h"
-#include "learning.h"
+#include "Layers/tensor.h"
+#include "Layers/layer.h"
+#include "Layers/convolutional.h"
+#include "Layers/fullconnected.h"
+#include "Layers/relu.h"
+#include "Layers/pooling.h"
+#include "Learning/learning.h"
 
 struct image_sample
 {

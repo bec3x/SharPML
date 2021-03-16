@@ -1,6 +1,10 @@
 #ifndef RELU_H
 #define RELU_H
 
+#include "tensor.h"
+#include "layer.h"
+#include "../Learning/learning.h"
+
 class ReluLayer : public layer
 {
 

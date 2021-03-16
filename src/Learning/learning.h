@@ -1,8 +1,11 @@
 #ifndef LEARNING_H
 #define LEARNING_H
 
+#include "../Layers/layer.h"
+
 constexpr float MOMENTUM = 0.6f;
 constexpr float WEIGHT_DECAY = 0.001f;
+
 
 static float update_weight(float w, gradient& grad, float learning_rate, float multplier = 1)
 {

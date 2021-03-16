@@ -1,6 +1,10 @@
 #ifndef POOLING_H
 #define POOLING_H
 
+#include "layer.h"
+#include "tensor.h"
+#include "../Learning/learning.h"
+
 class PoolingLayer : public layer
 {
 private:

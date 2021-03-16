@@ -2,8 +2,8 @@
 #define CONVLAYER_H
 
 #include "layer.h"
-#include "learning.h"
 #include "tensor.h"
+#include "../Learning/learning.h"
 
 class ConvLayer : public layer
 {

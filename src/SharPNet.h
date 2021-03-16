@@ -4,9 +4,8 @@
 #include <vector>
 #include <functional>
 #include <fstream>
-#include "Neuron.h"
-#include "activation.h"
-
+#include "Layers/Neuron.h"
+#include "Learning/learning.h"
 
 class SharPNet
 {
