@@ -2,8 +2,7 @@
 #define FULLCONNECTED_H
 
 #include <functional>
-#include "../Learning/learning.h"
-#include "../Learning/activation.h"
+#include "activation.h"
 
 class FullConnected : public layer
 {
@@ -11,8 +10,8 @@ private:
 	std::vector<float> _output_val;
 	tensor<float> _weights;
 	std::vector<gradient> _grads;
-	std::function<double(double)> _activation_function;
-	std::function<double(double)> _activation_derivative;
+	std::function<tensor<float>(std::vector<float>)> _activation_function;
+	std::function<tensor<float>(std::vector<float>)> _activation_derivative;
 
 	activation_t _act_fcn;
 
@@ -54,6 +53,9 @@ inline FullConnected::FullConnected(td_size in_size, int output_size, activation
 		_activation_function = lRelu;
 		_activation_derivative = lRelu_dev;
 		break;
+	case activation_t::Softmax:
+		_activation_function = softmax;
+		_activation_derivative = softmax_dev;
 	}
 
 	_input = tensor<float>(in_size._x, in_size._y, in_size._z);
@@ -125,8 +127,9 @@ inline void FullConnected::activate()
 		}
 
 		_output_val[n] = sum;
-		_output(n, 0, 0) = _activation_function(sum);
 	}
+
+	_output = _activation_function(_output_val);
 }
 
 inline void FullConnected::fix_weights(float learning_rate)
@@ -153,16 +156,18 @@ inline void FullConnected::calc_grads(tensor<float>& grad_next_layer)
 	int input_grad_size = _gradients._size._x * _gradients._size._y * _gradients._size._z;
 	memset(_gradients._data, 0, input_grad_size * sizeof(float));
 
+	tensor<float> derivatives = _activation_derivative(_output_val);
+
 	for (unsigned int n = 0; n < _output._size._x; n++) {
 		gradient& grad = _grads[n];
-		grad.grad = grad_next_layer(n, 0, 0) * _activation_derivative(_output_val[n]);
+		grad.grad = grad_next_layer(n, 0, 0) * derivatives(n, 0, 0);
 
 		for (int i = 0; i < _input._size._x; i++) {
 			for (int j = 0; j < _input._size._y; j++) {
 				for (int k = 0; k < _input._size._z; k++) {
 					int m = map({ i, j, k });
 					_gradients(i, j, k) += grad.grad * _weights(m, n, 0);
-				}				
+				}
 			}
 		}
 	}
@@ -177,7 +182,7 @@ inline std::string FullConnected::to_string()
 	ss << tensor_to_string(_output) << std::endl;
 	ss << tensor_to_string(_weights) << std::endl;
 	ss << tensor_to_string(_gradients) << std::endl;
-	
+
 	if (_act_fcn == activation_t::Tanh) {
 		ss << "Tanh" << std::endl;
 	}
